@@ -82,7 +82,7 @@ A coding girl's playground. I love coding and making things happen!!
   <a href="https://github.com/foudja-laeti/mortgage-calculator">
     <img src="https://github-readme-stats.vercel.app/api/pin/?username=VOTRE-USERNAME&repo=mortgage-calculator&theme=tokyonight&hide_border=true" />
   </a>
-  <a href="https://github.com/foudja-laeti/greek_mythology_website">
+  <a href="https://github.com/foudja-laeti/greek-mythology-website">
     <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=greek_mythology_website&theme=tokyonight&hide_border=true" />
   </a>
 </div>
