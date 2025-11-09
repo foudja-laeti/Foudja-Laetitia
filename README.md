@@ -54,12 +54,12 @@ A coding girl's playground. I love coding and making things happen!!
 ## 📊 GitHub Statistics
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=foudja-laeti&show_icons=true&theme=monokai&hide_border=true&count_private=true" alt="GitHub Stats" height="180"/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=foudja-laeti&layout=compact&theme=monokai&hide_border=true&langs_count=8" alt="Top Languages" height="180"/>
+  <img src="https://github-readme-stats.vercel.app/api?username=foudja-laeti&show_icons=true&theme=dracula&hide_border=true&count_private=true" alt="GitHub Stats" height="180"/>
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=foudja-laeti&layout=compact&theme=dracula&hide_border=true&langs_count=8" alt="Top Languages" height="180"/>
 </div>
 
 <div align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=foudja-laeti&theme=monokai&hide_border=true" alt="GitHub Streak" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=foudja-laeti&theme=dracula&hide_border=true" alt="GitHub Streak" />
 </div>
 
 <div align="center">
@@ -71,7 +71,7 @@ A coding girl's playground. I love coding and making things happen!!
 ## 🏆 GitHub Trophies
 
 <div align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=foudja-laeti&theme=monokai&no-frame=true&no-bg=false&margin-w=4&row=1" alt="GitHub Trophies" />
+  <img src="https://github-profile-trophy.vercel.app/?username=foudja-laeti&theme=dracula&no-frame=true&no-bg=false&margin-w=4&row=1" alt="GitHub Trophies" />
 </div>
 
 ---
@@ -80,10 +80,10 @@ A coding girl's playground. I love coding and making things happen!!
 
 <div align="center">
   <a href="https://github.com/foudja-laeti/mortage-calculator">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=mortage-calculator&theme=monokai&hide_border=true" />
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=mortage-calculator&theme=dracula&hide_border=true" />
   </a>
   <a href="https://github.com/foudja-laeti/greek-mythology-website">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=greek-mythology-website&theme=monokai&hide_border=true" />
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=greek-mythology-website&theme=dracula&hide_border=true" />
   </a>
 </div>
 
@@ -92,7 +92,7 @@ A coding girl's playground. I love coding and making things happen!!
 ## 📈 Contribution Graph
 
 <div align="center">
-  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=foudja-laeti&theme=monokai" alt="Contribution Graph" />
+  <img src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=foudja-laeti&theme=dracula" alt="Contribution Graph" />
 </div>
 
 ---
@@ -114,7 +114,7 @@ A coding girl's playground. I love coding and making things happen!!
 ---
 
 <div align="center">
-  <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=monokai" alt="Random Dev Quote"/>
+  <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=dracula" alt="Random Dev Quote"/>
 </div>
 
 <div align="center">
