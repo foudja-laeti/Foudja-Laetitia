@@ -17,7 +17,7 @@ A coding girl's playground. I love coding and making things happen!!
 🎯 Passionate Full Stack Developer specializing in modern web technologies  
 🌱 Currently mastering **Node.js**, and **TypeScript**  
 💼 Open to collaboration on innovative projects  
-📫 Reach me at: **foudjalaeti@example.com**  
+📫 Reach me at: **foudjalaeti@gmail.com**  
 ⚡ Fun fact: I love turning coffee into code ☕➡️💻
 
 ---
@@ -54,7 +54,7 @@ A coding girl's playground. I love coding and making things happen!!
 ## 📊 GitHub Statistics
 
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=foudja-laetiE&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" alt="GitHub Stats" height="180"/>
+  <img src="https://github-readme-stats.vercel.app/api?username=foudja-laeti&show_icons=true&theme=tokyonight&hide_border=true&count_private=true" alt="GitHub Stats" height="180"/>
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=foudja-laeti&layout=compact&theme=tokyonight&hide_border=true&langs_count=8" alt="Top Languages" height="180"/>
 </div>
 
@@ -79,11 +79,11 @@ A coding girl's playground. I love coding and making things happen!!
 ## 🔥 Featured Projects
 
 <div align="center">
-  <a href="https://github.com/foudja-laeti/mortgage-calculator">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=mortgage-calculator&theme=tokyonight&hide_border=true" />
+  <a href="https://github.com/foudja-laeti/mortage-calculator">
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=mortage-calculator&theme=tokyonight&hide_border=true" />
   </a>
   <a href="https://github.com/foudja-laeti/greek-mythology-website">
-    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=greek_mythology_website&theme=tokyonight&hide_border=true" />
+    <img src="https://github-readme-stats.vercel.app/api/pin/?username=foudja-laeti&repo=greek-mythology-website&theme=tokyonight&hide_border=true" />
   </a>
 </div>
 
