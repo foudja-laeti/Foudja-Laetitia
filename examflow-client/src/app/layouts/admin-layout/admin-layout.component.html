@@ -1,0 +1,171 @@
+<!-- admin-layout.component.html - COMPLET AVEC SOUS-MENU -->
+<div class="admin-layout">
+    <!-- Header Premium -->
+    <header class="admin-header">
+      <div class="header-left">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <span>ExamSys</span>
+        </div>
+        <nav class="header-nav">
+          <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+            <i class="fas fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+        </nav>
+      </div>
+      
+      <div class="header-right">
+        <div class="search-bar">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Rechercher...">
+        </div>
+        <div class="notifications">
+          <i class="fas fa-bell"></i>
+          <span class="badge">3</span>
+        </div>
+        <div class="user-profile">
+          <img [src]="user?.avatar || 'https://ui-avatars.com/api/?name=' + userName" alt="Avatar">
+          <div class="user-info">
+            <div class="user-name">{{ userName }}</div>
+            <div class="user-role">{{ userRole }}</div>
+          </div>
+          <button class="logout-btn" (click)="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+  
+    <div class="admin-body">
+      <!-- Sidebar Premium avec Menu Déroulant -->
+      <aside class="admin-sidebar">
+        <div class="sidebar-header">
+          <h3>Navigation</h3>
+        </div>
+        
+        <nav class="sidebar-nav">
+          <!-- 📊 Dashboard -->
+          <a routerLink="/admin" 
+             routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}"
+             class="nav-item">
+            <i class="fas fa-chart-line menu-icon"></i>
+            <span class="menu-text">Dashboard</span>
+          </a>
+  
+          <!-- 🏛️ Structure Académique (MENU DÉROULANT) -->
+          <div class="nav-group">
+            <button class="nav-item nav-parent" 
+                    [class.expanded]="isStructureMenuOpen"
+                    (click)="toggleStructureMenu()">
+              <i class="fas fa-university menu-icon"></i>
+              <span class="menu-text">Structure Académique</span>
+              <i class="fas fa-chevron-down submenu-arrow"></i>
+            </button>
+            
+            <!-- Sous-menu -->
+            <div class="submenu" [class.show]="isStructureMenuOpen">
+              <a routerLink="/admin/departments"
+                 routerLinkActive="active"
+                 class="submenu-item">
+                <i class="fas fa-building submenu-icon"></i>
+                <span class="submenu-text">Départements</span>
+              </a>
+              
+              <a routerLink="/admin/programs"
+                 routerLinkActive="active"
+                 class="submenu-item">
+                <i class="fas fa-clipboard-list submenu-icon"></i>
+                <span class="submenu-text">Programmes</span>
+              </a>
+              
+              <a routerLink="/admin/course-units"
+                 routerLinkActive="active"
+                 class="submenu-item">
+                <i class="fas fa-book submenu-icon"></i>
+                <span class="submenu-text">Unités d'Enseignement</span>
+              </a>
+            </div>
+          </div>
+  
+          <!-- 📅 Années & Semestres -->
+          <a routerLink="/admin/academic-years" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-calendar-alt menu-icon"></i>
+            <span class="menu-text">Années & Semestres</span>
+          </a>
+  
+          <!-- 👥 Utilisateurs -->
+          <a routerLink="/users" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-users menu-icon"></i>
+            <span class="menu-text">Utilisateurs</span>
+          </a>
+  
+          <!-- 🎓 Étudiants -->
+          <a routerLink="/students" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-user-graduate menu-icon"></i>
+            <span class="menu-text">Étudiants</span>
+          </a>
+  
+          <!-- 👨‍🏫 Enseignants -->
+          <a routerLink="/teachers" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-chalkboard-teacher menu-icon"></i>
+            <span class="menu-text">Enseignants</span>
+          </a>
+  
+          <!-- 📝 Notes -->
+          <a routerLink="/grades" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-edit menu-icon"></i>
+            <span class="menu-text">Notes</span>
+          </a>
+  
+          <!-- 📄 Bulletins -->
+          <a routerLink="/bulletins" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-file-alt menu-icon"></i>
+            <span class="menu-text">Bulletins</span>
+          </a>
+  
+          <!-- 📈 Statistiques -->
+          <a routerLink="/statistics" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-chart-bar menu-icon"></i>
+            <span class="menu-text">Statistiques</span>
+          </a>
+  
+          <!-- ⚙️ Paramètres -->
+          <a routerLink="/admin/settings" 
+             routerLinkActive="active"
+             class="nav-item">
+            <i class="fas fa-cog menu-icon"></i>
+            <span class="menu-text">Paramètres</span>
+          </a>
+  
+          <!-- DIVIDER ET DÉCONNEXION -->
+          <div class="sidebar-divider"></div>
+          
+          <button class="nav-item logout-item" (click)="logout()">
+            <i class="fas fa-sign-out-alt menu-icon"></i>
+            <span class="menu-text">Déconnexion</span>
+          </button>
+        </nav>
+      </aside>
+  
+      <!-- Content -->
+      <main class="admin-content">
+        <router-outlet />
+      </main>
+    </div>
+  </div>

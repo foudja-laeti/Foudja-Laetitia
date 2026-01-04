@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, delay } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { User, AuthResponse, LoginCredentials, UserRole } from '../models/user.model';
 
 @Injectable({
@@ -14,40 +13,22 @@ export class AuthService {
 
   private mockUsers = [
     {
-      id: '1',
-      email: 'admin@school.com',
-      password: 'admin123',
-      firstName: 'Admin',
-      lastName: 'System',
-      role: UserRole.ADMIN,
+      id: '1', email: 'admin@school.com', password: 'admin123',
+      firstName: 'Admin', lastName: 'System', role: UserRole.ADMIN,
       avatar: 'https://ui-avatars.com/api/?name=Admin+System&background=4F46E5&color=fff',
-      department: 'Administration',
-      createdAt: new Date(),
-      lastLogin: new Date()
+      department: 'Administration', createdAt: new Date(), lastLogin: new Date()
     },
     {
-      id: '2',
-      email: 'teacher@school.com',
-      password: 'teacher123',
-      firstName: 'Jean',
-      lastName: 'Dupont',
-      role: UserRole.ENSEIGNANT,
+      id: '2', email: 'teacher@school.com', password: 'teacher123',
+      firstName: 'Jean', lastName: 'Dupont', role: UserRole.ENSEIGNANT,
       avatar: 'https://ui-avatars.com/api/?name=Jean+Dupont&background=10B981&color=fff',
-      department: 'Mathématiques',
-      createdAt: new Date(),
-      lastLogin: new Date()
+      department: 'Mathématiques', createdAt: new Date(), lastLogin: new Date()
     },
     {
-      id: '3',
-      email: 'student@school.com',
-      password: 'student123',
-      firstName: 'Marie',
-      lastName: 'Martin',
-      role: UserRole.ETUDIANT,
+      id: '3', email: 'student@school.com', password: 'student123',
+      firstName: 'Marie', lastName: 'Martin', role: UserRole.ETUDIANT,
       avatar: 'https://ui-avatars.com/api/?name=Marie+Martin&background=F59E0B&color=fff',
-      department: 'Terminale S',
-      createdAt: new Date(),
-      lastLogin: new Date()
+      department: 'Terminale S', createdAt: new Date(), lastLogin: new Date()
     }
   ];
 
@@ -59,31 +40,40 @@ export class AuthService {
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
+  setUser(user: User): void {
+    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    this.currentUserSubject.next(user);
+  }
+
+  // ✅ login() CORRIGÉ - PLUS D'ERREUR TYPES
   login(credentials: LoginCredentials): Observable<AuthResponse> {
-    const user = this.mockUsers.find(
-      u => u.email === credentials.email && u.password === credentials.password
-    );
+    return new Observable<AuthResponse>(observer => {
+      setTimeout(() => {
+        const user = this.mockUsers.find(
+          u => u.email === credentials.email && u.password === credentials.password
+        );
 
-    if (!user) {
-      throw new Error('Email ou mot de passe incorrect');
-    }
+        if (!user) {
+          observer.error(new Error('Email ou mot de passe incorrect'));
+          return;
+        }
 
-    const { password, ...userWithoutPassword } = user;
-    const token = this.generateMockToken();
+        const { password, ...userWithoutPassword } = user;
+        const token = this.generateMockToken();
+        
+        const authResponse: AuthResponse = {
+          user: userWithoutPassword as User,
+          token: token
+        };
 
-    const authResponse: AuthResponse = {
-      user: userWithoutPassword as User,
-      token: token
-    };
-
-    return of(authResponse).pipe(
-      delay(800),
-      tap(response => {
-        localStorage.setItem(this.TOKEN_KEY, response.token);
-        localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
-        this.currentUserSubject.next(response.user);
-      })
-    );
+        localStorage.setItem(this.TOKEN_KEY, token);
+        localStorage.setItem(this.USER_KEY, JSON.stringify(authResponse.user));
+        this.currentUserSubject.next(authResponse.user);
+        
+        observer.next(authResponse);
+        observer.complete();
+      }, 1500);
+    });
   }
 
   logout(): void {
@@ -116,7 +106,7 @@ export class AuthService {
     switch (user.role) {
       case UserRole.ADMIN:
       case UserRole.PROVISEUR:
-        return '/dashboard/admin';
+        return '/admin';  // ✅ Sidebar Admin
       case UserRole.ENSEIGNANT:
       case UserRole.SURVEILLANT:
         return '/dashboard/teacher';

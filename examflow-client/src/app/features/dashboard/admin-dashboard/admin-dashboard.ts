@@ -1,27 +1,26 @@
-// src/app/features/dashboard/admin/admin-dashboard.component.ts
-
+// admin-dashboard.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 interface Activity {
   id: string;
-  description: string;
+  title: string;
   user: string;
-  timestamp: Date;
+  time: string;
   icon: string;
   color: string;
 }
 
-interface DashboardStats {
+interface Stats {
   totalStudents: number;
   totalTeachers: number;
   totalClasses: number;
   totalSubjects: number;
-  validatedGrades: number;
   pendingGrades: number;
-  averageSuccess: number;
-  recentActivities: Activity[];
+  validatedGrades: number;
+  successRate: number;
 }
 
 @Component({
@@ -31,90 +30,76 @@ interface DashboardStats {
   templateUrl: './admin-dashboard.html',
   styleUrls: ['./admin-dashboard.css']
 })
-export class AdminDashboard implements OnInit {
-  loading = true;
-  stats: DashboardStats | null = null;
+export class AdminDashboardComponent implements OnInit {
+  stats: Stats = {
+    totalStudents: 1248,
+    totalTeachers: 87,
+    totalClasses: 42,
+    totalSubjects: 156,
+    pendingGrades: 124,
+    validatedGrades: 856,
+    successRate: 87.3
+  };
 
-  constructor(private authService: AuthService) {}
+  recentActivities: Activity[] = [
+    {
+      id: '1',
+      title: 'Nouvel étudiant inscrit',
+      user: 'Marie Dubois',
+      time: 'Il y a 5 minutes',
+      icon: 'user-plus',
+      color: 'blue'
+    },
+    {
+      id: '2',
+      title: 'Notes de mathématiques validées',
+      user: 'Jean Dupont',
+      time: 'Il y a 15 minutes',
+      icon: 'check-circle',
+      color: 'green'
+    },
+    {
+      id: '3',
+      title: 'Nouveau cours créé',
+      user: 'Sophie Martin',
+      time: 'Il y a 30 minutes',
+      icon: 'book',
+      color: 'blue'
+    },
+    {
+      id: '4',
+      title: 'Bulletin généré',
+      user: 'Admin System',
+      time: 'Il y a 1 heure',
+      icon: 'file-alt',
+      color: 'orange'
+    }
+  ];
+
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.loadDashboardData();
+    // Charger les données
   }
 
-  loadDashboardData(): void {
-    // Simuler le chargement des données
-    setTimeout(() => {
-      this.stats = {
-        totalStudents: 1248,
-        totalTeachers: 87,
-        totalClasses: 42,
-        totalSubjects: 28,
-        validatedGrades: 856,
-        pendingGrades: 124,
-        averageSuccess: 78,
-        recentActivities: [
-          {
-            id: '1',
-            description: 'Nouvelle inscription d\'étudiant',
-            user: 'Marie Dubois',
-            timestamp: new Date(Date.now() - 1000 * 60 * 5),
-            icon: 'user-plus',
-            color: 'primary'
-          },
-          {
-            id: '2',
-            description: 'Notes de mathématiques validées',
-            user: 'Jean Dupont',
-            timestamp: new Date(Date.now() - 1000 * 60 * 15),
-            icon: 'check-circle',
-            color: 'success'
-          },
-          {
-            id: '3',
-            description: 'Nouveau cours créé',
-            user: 'Sophie Martin',
-            timestamp: new Date(Date.now() - 1000 * 60 * 30),
-            icon: 'book',
-            color: 'info'
-          },
-          {
-            id: '4',
-            description: 'Bulletin généré',
-            user: 'Admin System',
-            timestamp: new Date(Date.now() - 1000 * 60 * 60),
-            icon: 'file-pdf',
-            color: 'warning'
-          },
-          {
-            id: '5',
-            description: 'Paramètres mis à jour',
-            user: 'Admin System',
-            timestamp: new Date(Date.now() - 1000 * 60 * 120),
-            icon: 'cog',
-            color: 'secondary'
-          }
-        ]
-      };
-
-      this.loading = false;
-    }, 1000);
+  get currentUser() {
+    return this.authService.getCurrentUser();
   }
 
-  getTimeAgo(timestamp: Date): string {
-    const now = new Date();
-    const diff = now.getTime() - new Date(timestamp).getTime();
-    const minutes = Math.floor(diff / 1000 / 60);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
+  get userName() {
+    return this.currentUser ? `${this.currentUser.firstName} ${this.currentUser.lastName}` : 'Admin';
+  }
 
-    if (days > 0) {
-      return `Il y a ${days} jour${days > 1 ? 's' : ''}`;
-    } else if (hours > 0) {
-      return `Il y a ${hours} heure${hours > 1 ? 's' : ''}`;
-    } else if (minutes > 0) {
-      return `Il y a ${minutes} minute${minutes > 1 ? 's' : ''}`;
-    } else {
-      return 'À l\'instant';
-    }
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
+  }
+
+  getProgressPercentage(): number {
+    const total = this.stats.validatedGrades + this.stats.pendingGrades;
+    return Math.round((this.stats.validatedGrades / total) * 100);
   }
 }

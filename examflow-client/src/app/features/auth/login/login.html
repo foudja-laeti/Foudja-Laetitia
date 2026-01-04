@@ -1,122 +1,124 @@
-<!-- ====================================
-     HTML - login.component.html
-     ==================================== -->
+<!-- src/app/features/auth/login/login.html - SAFE FORM -->
+<div class="login-container">
+  <div class="login-card">
+    <!-- Header -->
+    <div class="login-header">
+      <div class="logo">
+        <i class="fas fa-graduation-cap"></i>
+      </div>
+      <h1>Bienvenue</h1>
+      <p>Connectez-vous à votre compte</p>
+    </div>
 
-     <div class="login-container">
-      <div class="login-card">
-        <!-- Header -->
-        <div class="login-header">
-          <div class="logo">
-            <i class="fas fa-graduation-cap"></i>
-          </div>
-          <h1>Bienvenue</h1>
-          <p>Connectez-vous à votre compte</p>
-        </div>
-    
-        <!-- Error Alert -->
-        <div class="alert alert-danger" *ngIf="error">
-          <i class="fas fa-exclamation-circle"></i>
-          <span>{{ error }}</span>
-        </div>
-    
-        <!-- Login Form -->
-        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <!-- Email -->
-          <div class="form-group">
-            <label for="email">
-              <i class="fas fa-envelope"></i>
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              formControlName="email"
-              class="form-control"
-              [class.is-invalid]="isFieldInvalid('email')"
-              placeholder="exemple@school.com"
-            />
-            <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
-              <span *ngIf="f['email'].errors?.['required']">L'email est requis</span>
-              <span *ngIf="f['email'].errors?.['email']">Email invalide</span>
-            </div>
-          </div>
-    
-          <!-- Password -->
-          <div class="form-group">
-            <label for="password">
-              <i class="fas fa-lock"></i>
-              Mot de passe
-            </label>
-            <div class="password-input">
-              <input
-                [type]="showPassword ? 'text' : 'password'"
-                id="password"
-                formControlName="password"
-                class="form-control"
-                [class.is-invalid]="isFieldInvalid('password')"
-                placeholder="••••••••"
-              />
-              <button
-                type="button"
-                class="toggle-password"
-                (click)="togglePasswordVisibility()"
-              >
-                <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-              </button>
-            </div>
-            <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
-              <span *ngIf="f['password'].errors?.['required']">Le mot de passe est requis</span>
-              <span *ngIf="f['password'].errors?.['minlength']">Minimum 6 caractères</span>
-            </div>
-          </div>
-    
-          <!-- Remember me & Forgot password -->
-          <div class="form-options">
-            <label class="checkbox-label">
-              <input type="checkbox" formControlName="rememberMe" />
-              <span>Se souvenir de moi</span>
-            </label>
-            <a href="/auth/forgot-password" class="forgot-link">
-              Mot de passe oublié ?
-            </a>
-          </div>
-    
-          <!-- Submit Button -->
-          <button
-            type="submit"
-            class="btn btn-primary btn-block"
-            [disabled]="loading"
-          >
-            <span *ngIf="!loading">Se connecter</span>
-            <span *ngIf="loading">
-              <i class="fas fa-spinner fa-spin"></i>
-              Connexion...
-            </span>
-          </button>
-        </form>
-    
-        <!-- Test Accounts -->
-        <div class="test-accounts">
-          <p class="test-accounts-title">
-            <i class="fas fa-info-circle"></i>
-            Comptes de test disponibles
-          </p>
-          <div class="test-account-list">
-            <div
-              *ngFor="let account of testAccounts"
-              class="test-account-item"
-              (click)="useTestAccount(account)"
-            >
-              <div class="account-role">{{ account.role }}</div>
-              <div class="account-email">{{ account.email }}</div>
-            </div>
-          </div>
+    <!-- Error Alert -->
+    <div class="alert alert-danger" *ngIf="error">
+      <i class="fas fa-exclamation-circle"></i>
+      <span>{{ error }}</span>
+    </div>
+
+    <!-- Login Form - SAFE -->
+    <form *ngIf="loginForm" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">
+          <i class="fas fa-envelope"></i>
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="isFieldInvalid('email')"
+          placeholder="exemple@school.com"
+        />
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+          <span *ngIf="f['email']?.errors?.['required']">L'email est requis</span>
+<span *ngIf="f['email']?.errors?.['email']">Email invalide</span>
         </div>
       </div>
-    
-      <!-- Footer -->
-      <div class="login-footer">
-        <p>&copy; 2024 Système de Gestion Scolaire. Tous droits réservés.</p>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">
+          <i class="fas fa-lock"></i>
+          Mot de passe
+        </label>
+        <div class="password-input">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-control"
+            [class.is-invalid]="isFieldInvalid('password')"
+            placeholder="••••••••"
+          />
+          <button
+            type="button"
+            class="toggle-password"
+            (click)="togglePasswordVisibility()"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="invalid-feedback" *ngIf="isFieldInvalid('password')">
+          <span *ngIf="f['password']?.errors?.['required']">Le mot de passe est requis</span>
+<span *ngIf="f['password']?.errors?.['minlength']">Minimum 6 caractères</span>
+        </div>
+      </div>
+
+      <!-- Remember me & Forgot password -->
+      <div class="form-options">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="rememberMe" />
+          <span>Se souvenir de moi</span>
+        </label>
+        <a routerLink="/auth/forgot-password" class="forgot-link">
+          Mot de passe oublié ?
+        </a>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-primary btn-block"
+        [disabled]="loading || !loginForm"
+      >
+        <span *ngIf="!loading">Se connecter</span>
+        <span *ngIf="loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          Connexion...
+        </span>
+      </button>
+    </form>
+
+    <!-- Loading Spinner (si pas de form) -->
+    <div *ngIf="!loginForm" class="loading-form">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Chargement...</p>
+    </div>
+
+    <!-- Test Accounts -->
+    <div class="test-accounts">
+      <p class="test-accounts-title">
+        <i class="fas fa-info-circle"></i>
+        Comptes de test disponibles
+      </p>
+      <div class="test-account-list">
+        <div
+          *ngFor="let account of testAccounts"
+          class="test-account-item"
+          (click)="useTestAccount(account)"
+        >
+          <div class="account-role">{{ account.role }}</div>
+          <div class="account-email">{{ account.email }}</div>
+        </div>
       </div>
     </div>
-    
+  </div>
+
+  <!-- Footer -->
+  <div class="login-footer">
+    <p>&copy; 2024 Système de Gestion Scolaire. Tous droits réservés.</p>
+  </div>
+</div>
