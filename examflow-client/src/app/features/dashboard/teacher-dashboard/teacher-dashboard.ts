@@ -4,6 +4,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 
+interface Activity {
+  id: string;
+  description: string;
+  timestamp: Date;
+  icon: string;
+  color: string;
+}
+
 interface TeacherStats {
   totalSubjects: number;
   totalClasses: number;
@@ -13,14 +21,6 @@ interface TeacherStats {
   recentActivities: Activity[];
 }
 
-interface Activity {
-  id: string;
-  description: string;
-  timestamp: Date;
-  icon: string;
-  color: string;
-}
-
 interface Subject {
   id: string;
   name: string;
@@ -28,7 +28,7 @@ interface Subject {
   coefficient: number;
 }
 
-interface ClassInfo {
+interface ClassRoom {
   id: string;
   name: string;
   level: string;
@@ -48,7 +48,7 @@ export class TeacherDashboard implements OnInit {
   teacherName = '';
   stats: TeacherStats | null = null;
   subjects: Subject[] = [];
-  classes: ClassInfo[] = [];
+  classes: ClassRoom[] = [];
 
   constructor(private authService: AuthService) {}
 
