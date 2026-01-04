@@ -1,0 +1,136 @@
+/* src/app/features/dashboard/student/student-dashboard.component.css */
+
+.grade-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  .grade-value.excellent {
+    color: #10B981;
+  }
+  
+  .grade-value.good {
+    color: #3B82F6;
+  }
+  
+  .grade-value.average {
+    color: #F59E0B;
+  }
+  
+  .grade-value.poor {
+    color: #EF4444;
+  }
+  
+  .type-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .type-badge.Devoir {
+    background-color: #DBEAFE;
+    color: #1E40AF;
+  }
+  
+  .type-badge.Contrôle {
+    background-color: #FEF3C7;
+    color: #92400E;
+  }
+  
+  .type-badge.Dissertation,
+  .type-badge.Composition {
+    background-color: #FCE7F3;
+    color: #9F1239;
+  }
+  
+  .type-badge.Oral {
+    background-color: #D1FAE5;
+    color: #065F46;
+  }
+  
+  .type-badge.TP {
+    background-color: #E0E7FF;
+    color: #3730A3;
+  }
+  
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+  
+  .status-badge.VALIDATED {
+    background-color: #D1FAE5;
+    color: #065F46;
+  }
+  
+  .status-badge.PENDING {
+    background-color: #FEF3C7;
+    color: #92400E;
+  }
+  
+  .coefficient {
+    color: #6B7280;
+    font-weight: 500;
+  }
+  
+  .date-cell {
+    color: #6B7280;
+    font-size: 0.9rem;
+  }
+  
+  .circle-chart {
+    position: relative;
+    width: 150px;
+    height: 150px;
+  }
+  
+  .circle-bg {
+    fill: none;
+    stroke: #E5E7EB;
+    stroke-width: 8;
+  }
+  
+  .circle-progress {
+    fill: none;
+    stroke: #10B981;
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 251;
+    transform: rotate(-90deg);
+    transform-origin: center;
+    transition: stroke-dashoffset 0.5s ease;
+  }
+  
+  .circle-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+  
+  .circle-content .percentage {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1F2937;
+  }
+  
+  .circle-content .label {
+    display: block;
+    font-size: 0.9rem;
+    color: #6B7280;
+  }
+  
+  .performance-label {
+    margin-top: 12px;
+    text-align: center;
+    color: #6B7280;
+    font-size: 0.9rem;
+  }

@@ -1,0 +1,73 @@
+<div class="main-layout" [class.sidebar-closed]="!sidebarOpen">
+  
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <i class="fas fa-graduation-cap"></i>
+          <span *ngIf="sidebarOpen">ExamSys</span>
+        </div>
+      </div>
+  
+      <nav class="sidebar-menu">
+        <a
+          *ngFor="let item of menuItems"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          class="menu-item"
+          [title]="item.label"
+        >
+          <i [class]="'fas fa-' + item.icon"></i>
+          <span *ngIf="sidebarOpen">{{ item.label }}</span>
+        </a>
+      </nav>
+  
+      <div class="sidebar-footer">
+        <button class="menu-item logout-btn" (click)="logout()" [title]="'Déconnexion'">
+          <i class="fas fa-sign-out-alt"></i>
+          <span *ngIf="sidebarOpen">Déconnexion</span>
+        </button>
+      </div>
+    </aside>
+  
+    <!-- Main Content Area -->
+    <div class="main-content">
+      
+      <!-- Navbar -->
+      <header class="navbar">
+        <div class="navbar-left">
+          <button class="toggle-btn" (click)="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="breadcrumb">
+            <i class="fas fa-home"></i>
+            <span>/ Dashboard</span>
+          </div>
+        </div>
+  
+        <div class="navbar-right">
+          <!-- Notifications -->
+          <button class="icon-btn">
+            <i class="fas fa-bell"></i>
+            <span class="badge">3</span>
+          </button>
+  
+          <!-- User Menu -->
+          <div class="user-menu" *ngIf="currentUser">
+            <img [src]="currentUser.avatar" [alt]="currentUser.firstName" class="user-avatar" />
+            <div class="user-info">
+              <p class="user-name">{{ currentUser.firstName }} {{ currentUser.lastName }}</p>
+              <p class="user-role">{{ currentUser.role }}</p>
+            </div>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+        </div>
+      </header>
+  
+      <!-- Page Content -->
+      <main class="page-content">
+        <router-outlet></router-outlet>
+      </main>
+  
+    </div>
+  </div>

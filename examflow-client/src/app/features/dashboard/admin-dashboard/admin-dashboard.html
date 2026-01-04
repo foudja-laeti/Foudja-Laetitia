@@ -1,0 +1,230 @@
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1>Tableau de Bord Administrateur</h1>
+        <p>Vue d'ensemble du système de gestion</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline">
+          <i class="fas fa-download"></i>
+          Exporter
+        </button>
+        <button class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+          Nouveau
+        </button>
+      </div>
+    </div>
+  
+    <!-- Loading -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Chargement des données...</p>
+    </div>
+  
+    <!-- Content -->
+    <div *ngIf="!loading && stats" class="dashboard-content">
+      
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card primary">
+          <div class="stat-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Étudiants</p>
+            <h3 class="stat-value">{{ stats.totalStudents }}</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> +12%
+            </span>
+          </div>
+        </div>
+  
+        <div class="stat-card success">
+          <div class="stat-icon">
+            <i class="fas fa-chalkboard-teacher"></i>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Enseignants</p>
+            <h3 class="stat-value">{{ stats.totalTeachers }}</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> +5%
+            </span>
+          </div>
+        </div>
+  
+        <div class="stat-card warning">
+          <div class="stat-icon">
+            <i class="fas fa-door-open"></i>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Classes</p>
+            <h3 class="stat-value">{{ stats.totalClasses }}</h3>
+            <span class="stat-change neutral">
+              <i class="fas fa-minus"></i> 0%
+            </span>
+          </div>
+        </div>
+  
+        <div class="stat-card info">
+          <div class="stat-icon">
+            <i class="fas fa-book"></i>
+          </div>
+          <div class="stat-content">
+            <p class="stat-label">Matières</p>
+            <h3 class="stat-value">{{ stats.totalSubjects }}</h3>
+            <span class="stat-change positive">
+              <i class="fas fa-arrow-up"></i> +8%
+            </span>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Main Grid -->
+      <div class="main-grid">
+        
+        
+        <!-- Activities -->
+        <div class="card activities-card">
+          <div class="card-header">
+            <h3>
+              <i class="fas fa-history"></i>
+              Activités Récentes
+            </h3>
+            <a href="#" class="link-primary">Tout voir</a>
+          </div>
+          <div class="card-body">
+            <div class="activities-list">
+              <div
+                *ngFor="let activity of stats.recentActivities"
+                class="activity-item"
+              >
+                <div class="activity-icon" [class]="activity.color">
+                  <i [class]="'fas fa-' + activity.icon"></i>
+                </div>
+                <div class="activity-content">
+                  <p class="activity-description">{{ activity.description }}</p>
+                  <div class="activity-meta">
+                    <span class="activity-user">
+                      <i class="fas fa-user"></i>
+                      {{ activity.user }}
+                    </span>
+                    <span class="activity-time">
+                      {{ getTimeAgo(activity.timestamp) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Bottom Grid -->
+      <div class="bottom-grid">
+        
+        <!-- Grades Overview -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <i class="fas fa-graduation-cap"></i>
+              Notes en Attente
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="progress-section">
+              <div class="progress-info">
+                <span>Notes validées</span>
+                <strong>{{ stats.validatedGrades }} / {{ (stats.validatedGrades || 0) + (stats.pendingGrades || 0) }}</strong>
+              </div>
+              <div class="progress-bar-container">
+                <div 
+                  class="progress-bar" 
+                  [style.width.%]="(stats.validatedGrades || 0) / ((stats.validatedGrades || 0) + (stats.pendingGrades || 0)) * 100"
+                ></div>
+              </div>
+            </div>
+            
+            <div class="stats-row">
+              <div class="stat-item">
+                <i class="fas fa-clock text-warning"></i>
+                <div>
+                  <p>En attente</p>
+                  <strong>{{ stats.pendingGrades }}</strong>
+                </div>
+              </div>
+              <div class="stat-item">
+                <i class="fas fa-check-circle text-success"></i>
+                <div>
+                  <p>Validées</p>
+                  <strong>{{ stats.validatedGrades }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Success Rate -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <i class="fas fa-trophy"></i>
+              Taux de Réussite
+            </h3>
+          </div>
+          <div class="card-body center">
+            <div class="success-rate">
+              <div class="rate-circle">
+                <svg viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="45" class="circle-bg"></circle>
+                  <circle 
+                    cx="50" 
+                    cy="50" 
+                    r="45" 
+                    class="circle-progress"
+                    [style.stroke-dashoffset]="283 - (283 * (stats.averageSuccess || 0) / 100)"
+                  ></circle>
+                </svg>
+                <div class="rate-value">
+                  <h2>{{ stats.averageSuccess }}%</h2>
+                  <p>Moyenne</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Quick Actions -->
+        <div class="card">
+          <div class="card-header">
+            <h3>
+              <i class="fas fa-bolt"></i>
+              Actions Rapides
+            </h3>
+          </div>
+          <div class="card-body">
+            <div class="quick-actions">
+              <button class="action-btn">
+                <i class="fas fa-user-plus"></i>
+                <span>Nouvel Utilisateur</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-file-import"></i>
+                <span>Importer Notes</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-file-pdf"></i>
+                <span>Générer Bulletins</span>
+              </button>
+              <button class="action-btn">
+                <i class="fas fa-cog"></i>
+                <span>Paramètres</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
