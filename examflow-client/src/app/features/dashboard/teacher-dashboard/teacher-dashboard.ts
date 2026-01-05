@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
 
 interface Activity {
   id: string;
@@ -18,6 +19,7 @@ interface TeacherStats {
   pendingGrades: number;
   validatedGrades: number;
   averageSuccess: number;
+  pendingRequests: number;
   recentActivities: Activity[];
 }
 
@@ -50,7 +52,10 @@ export class TeacherDashboard implements OnInit {
   subjects: Subject[] = [];
   classes: ClassRoom[] = [];
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadTeacherData();
@@ -71,10 +76,11 @@ export class TeacherDashboard implements OnInit {
         pendingGrades: 24,
         validatedGrades: 156,
         averageSuccess: 13.8,
+        pendingRequests: 8,
         recentActivities: [
           {
             id: '1',
-            description: 'Notes de Mathématiques validées pour 2nde A',
+            description: 'Notes de Mathématiques validées pour L2 Info',
             timestamp: new Date(Date.now() - 1000 * 60 * 15),
             icon: 'check-circle',
             color: 'success'
@@ -95,16 +101,16 @@ export class TeacherDashboard implements OnInit {
           },
           {
             id: '4',
-            description: 'Classe 1ère S - Moyenne en hausse',
+            description: 'UE Algorithmique - Moyenne en hausse',
             timestamp: new Date(Date.now() - 1000 * 60 * 60 * 5),
             icon: 'chart-line',
             color: 'success'
           },
           {
             id: '5',
-            description: 'Rappel: Notes à valider avant le 25/01',
-            timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24),
-            icon: 'exclamation-triangle',
+            description: 'Nouvelle requête étudiant pour révision de note',
+            timestamp: new Date(Date.now() - 1000 * 60 * 60 * 8),
+            icon: 'question-circle',
             color: 'warning'
           }
         ]
@@ -113,20 +119,20 @@ export class TeacherDashboard implements OnInit {
       this.subjects = [
         {
           id: '1',
-          name: 'Mathématiques',
-          code: 'MATH-101',
+          name: 'Algorithmique et Structures de Données',
+          code: 'INF-301',
           coefficient: 4
         },
         {
           id: '2',
-          name: 'Physique-Chimie',
-          code: 'PHY-201',
+          name: 'Bases de Données Relationnelles',
+          code: 'INF-302',
           coefficient: 3
         },
         {
           id: '3',
-          name: 'Sciences de l\'Ingénieur',
-          code: 'SI-301',
+          name: 'Programmation Orientée Objet',
+          code: 'INF-303',
           coefficient: 3
         }
       ];
@@ -134,38 +140,38 @@ export class TeacherDashboard implements OnInit {
       this.classes = [
         {
           id: '1',
-          name: '2nde A',
-          level: 'Seconde',
-          department: 'Scientifique',
-          studentCount: 35
+          name: 'Algorithmique L2 Info',
+          level: 'Licence 2',
+          department: 'Informatique',
+          studentCount: 45
         },
         {
           id: '2',
-          name: '2nde B',
-          level: 'Seconde',
-          department: 'Scientifique',
-          studentCount: 32
+          name: 'Base de Données L2 Info',
+          level: 'Licence 2',
+          department: 'Informatique',
+          studentCount: 48
         },
         {
           id: '3',
-          name: '1ère S1',
-          level: 'Première',
-          department: 'Scientifique',
-          studentCount: 28
+          name: 'POO L2 Info',
+          level: 'Licence 2',
+          department: 'Informatique',
+          studentCount: 42
         },
         {
           id: '4',
-          name: '1ère S2',
-          level: 'Première',
-          department: 'Scientifique',
-          studentCount: 30
+          name: 'Algorithmique L2 Math-Info',
+          level: 'Licence 2',
+          department: 'Mathématiques-Informatique',
+          studentCount: 35
         },
         {
           id: '5',
-          name: 'Terminale S',
-          level: 'Terminale',
-          department: 'Scientifique',
-          studentCount: 25
+          name: 'Base de Données L3 Info',
+          level: 'Licence 3',
+          department: 'Informatique',
+          studentCount: 38
         }
       ];
 
@@ -189,5 +195,53 @@ export class TeacherDashboard implements OnInit {
     } else {
       return 'À l\'instant';
     }
+  }
+
+  // Méthodes pour les actions
+  openGradeEntry(subject: Subject): void {
+    console.log('Ouverture saisie notes pour:', subject.name);
+    // Navigation vers la page de saisie de notes
+    // this.router.navigate(['/teacher/grades/entry', subject.id]);
+  }
+
+  viewStatistics(classRoom: ClassRoom): void {
+    console.log('Affichage statistiques pour:', classRoom.name);
+    // Navigation vers les statistiques
+    // this.router.navigate(['/teacher/statistics', classRoom.id]);
+  }
+
+  viewStudents(classRoom: ClassRoom): void {
+    console.log('Affichage étudiants pour:', classRoom.name);
+    // Navigation vers la liste des étudiants
+    // this.router.navigate(['/teacher/students', classRoom.id]);
+  }
+
+  exportData(classRoom: ClassRoom): void {
+    console.log('Export données pour:', classRoom.name);
+    // Logique d'export
+  }
+
+  quickGradeEntry(): void {
+    console.log('Saisie rapide de notes CC');
+    // Navigation vers saisie rapide
+    // this.router.navigate(['/teacher/grades/quick-entry']);
+  }
+
+  importExcel(): void {
+    console.log('Import Excel');
+    // Ouvrir le dialogue d'import Excel
+    // this.router.navigate(['/teacher/grades/import']);
+  }
+
+  validateGrades(): void {
+    console.log('Validation des notes');
+    // Navigation vers validation
+    // this.router.navigate(['/teacher/grades/validate']);
+  }
+
+  viewRequests(): void {
+    console.log('Affichage des requêtes étudiantes');
+    // Navigation vers les requêtes
+    // this.router.navigate(['/teacher/requests']);
   }
 }

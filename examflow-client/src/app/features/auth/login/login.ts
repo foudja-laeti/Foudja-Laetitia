@@ -1,11 +1,18 @@
-// src/app/features/auth/login/login.ts - ANTI-CRASH
-// src/app/features/auth/login/login.ts - IMPORT MANQUANT
+// src/app/features/auth/login/login.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';  // ✅ FormGroup ICI
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
+// Interface pour les comptes test
+interface TestAccount {
+  email: string;
+  password: string;
+  role: string;
+  type: string;
+  icon: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -15,15 +22,33 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrls: ['./login.scss']
 })
 export class Login implements OnInit {
-  loginForm: FormGroup | null = null;  // ✅ NULLABLE
+  loginForm: FormGroup | null = null;
   loading = false;
   error = '';
   showPassword = false;
 
-  testAccounts = [
-    { email: 'admin@school.com', password: 'admin123', role: 'ADMIN' },
-    { email: 'teacher@school.com', password: 'teacher123', role: 'ENSEIGNANT' },
-    { email: 'student@school.com', password: 'student123', role: 'ETUDIANT' }
+  testAccounts: TestAccount[] = [
+    {
+      email: 'admin@school.com',
+      password: 'admin123',
+      role: 'Administrateur',
+      type: 'admin',
+      icon: 'fas fa-user-shield'
+    },
+    {
+      email: 'teacher@school.com',
+      password: 'teacher123',
+      role: 'Enseignant',
+      type: 'teacher',
+      icon: 'fas fa-chalkboard-teacher'
+    },
+    {
+      email: 'student@school.com',
+      password: 'student123',
+      role: 'Étudiant',
+      type: 'student',
+      icon: 'fas fa-user-graduate'
+    }
   ];
 
   constructor(
@@ -34,13 +59,13 @@ export class Login implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // ✅ CHECK AUTH D'ABORD
+    // Check auth d'abord
     if (this.authService.isAuthenticated()) {
       this.router.navigate([this.authService.getDashboardRoute()]);
       return;
     }
 
-    // ✅ ENSUITE init form
+    // Init form
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -65,19 +90,19 @@ export class Login implements OnInit {
         if (['ADMIN', 'PROVISEUR', 'SURVEILLANT'].includes(userRole || '')) {
           this.router.navigate(['/admin']);
         } else if (userRole === 'ETUDIANT') {
-          this.router.navigate(['/dashboard/student']);
+          this.router.navigate(['/student/dashboard']);
         } else {
-          this.router.navigate(['/dashboard/teacher']);
+          this.router.navigate(['/teacher/dashboard']);
         }
       },
       error: (err: any) => {
         this.loading = false;
-        this.error = err.error?.message || 'Erreur de connexion';
+        this.error = err.error?.message || 'Erreur de connexion. Veuillez réessayer.';
       }
     });
   }
 
-  useTestAccount(account: any): void {
+  useTestAccount(account: TestAccount): void {
     if (this.loginForm) {
       this.loginForm.patchValue({
         email: account.email,
@@ -96,13 +121,13 @@ export class Login implements OnInit {
     });
   }
 
-  // ✅ SAFE GETTERS
+  // Safe getters
   get f() {
     return this.loginForm?.controls || {};
   }
 
   isFieldInvalid(fieldName: string): boolean {
-    if (!this.loginForm) return false;  // ✅ SAFE CHECK
+    if (!this.loginForm) return false;
     const field = this.loginForm.get(fieldName);
     return !!(field && field.invalid && (field.dirty || field.touched));
   }

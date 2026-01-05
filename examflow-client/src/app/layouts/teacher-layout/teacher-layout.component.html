@@ -1,0 +1,106 @@
+<div class="layout-container">
+    <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <i class="fas fa-graduation-cap logo-icon"></i>
+          <span class="logo-text" *ngIf="!sidebarCollapsed">ExamSys</span>
+        </div>
+      </div>
+  
+      <nav class="sidebar-nav">
+        <a routerLink="/teacher/dashboard" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Tableau de bord' : ''">
+          <i class="fas fa-home"></i>
+          <span *ngIf="!sidebarCollapsed">Tableau de bord</span>
+        </a>
+  
+        <a routerLink="/teacher/classes" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Mes Classes' : ''">
+          <i class="fas fa-users"></i>
+          <span *ngIf="!sidebarCollapsed">Mes Classes</span>
+        </a>
+  
+        <a routerLink="/teacher/grades" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Notes' : ''">
+          <i class="fas fa-clipboard-list"></i>
+          <span *ngIf="!sidebarCollapsed">Notes</span>
+          <span class="badge" *ngIf="!sidebarCollapsed && pendingGrades > 0">{{ pendingGrades }}</span>
+        </a>
+  
+        <a routerLink="/teacher/statistics" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Statistiques' : ''">
+          <i class="fas fa-chart-bar"></i>
+          <span *ngIf="!sidebarCollapsed">Statistiques</span>
+        </a>
+  
+        <a routerLink="/teacher/requests" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Requêtes' : ''">
+          <i class="fas fa-question-circle"></i>
+          <span *ngIf="!sidebarCollapsed">Requêtes</span>
+          <span class="badge warning" *ngIf="!sidebarCollapsed && pendingRequests > 0">{{ pendingRequests }}</span>
+        </a>
+  
+        <a routerLink="/teacher/bulletins" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Bulletins' : ''">
+          <i class="fas fa-file-alt"></i>
+          <span *ngIf="!sidebarCollapsed">Bulletins</span>
+        </a>
+  
+        <a routerLink="/teacher/settings" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Paramètres' : ''">
+          <i class="fas fa-cog"></i>
+          <span *ngIf="!sidebarCollapsed">Paramètres</span>
+        </a>
+      </nav>
+  
+      <div class="sidebar-footer">
+        <button class="logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span *ngIf="!sidebarCollapsed">Déconnexion</span>
+        </button>
+      </div>
+    </aside>
+  
+    <main class="main-wrapper">
+      <header class="main-header">
+        <div class="header-content">
+          <div class="page-info">
+            <h1 class="page-title">{{ getPageTitle() }}</h1>
+            <p class="academic-info">Année académique 2024-2025 | Trimestre 1</p>
+          </div>
+  
+          <div class="header-right">
+            <div class="notifications">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">5</span>
+            </div>
+            <div class="user-profile">
+              <div class="user-text">
+                <span class="user-name">{{ teacherName }}</span>
+                <span class="user-role">Enseignant</span>
+              </div>
+              <div class="user-avatar">{{ getInitials() }}</div>
+            </div>
+          </div>
+        </div>
+      </header>
+  
+      <div class="content-body">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>

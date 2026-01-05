@@ -13,7 +13,7 @@
   --warning-light: #FEF3C7;
   --danger: #EF4444;
   --danger-light: #FEE2E2;
-  --info: #3B82F6;
+  --info: #0b5855;
   --info-light: #DBEAFE;
   
   --gray-50: #F9FAFB;
@@ -95,7 +95,7 @@
 
 .btn-outline {
   background: white;
-  color: var(--primary);
+  color: #6366F1;
   box-shadow: var(--shadow-md);
 }
 
@@ -426,7 +426,7 @@
 }
 
 .subject-cell i {
-  color: var(--primary);
+  color: #0b5855;
   font-size: 1.1rem;
 }
 

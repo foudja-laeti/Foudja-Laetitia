@@ -1,30 +1,4 @@
-<!-- admin-dashboard.component.html -->
 <div class="dashboard-wrapper">
-  <!-- Top Bar avec breadcrumb et user -->
-  <div class="top-bar">
-    <div class="breadcrumb">
-      <i class="fas fa-home"></i>
-      <span>/</span>
-      <span class="current">Dashboard</span>
-    </div>
-    
-    <div class="top-bar-right">
-      <div class="notification-icon">
-        <i class="fas fa-bell"></i>
-        <span class="badge">3</span>
-      </div>
-      
-      <div class="user-menu-compact">
-        <div class="user-avatar">{{ userName.charAt(0) }}</div>
-        <div class="user-details">
-          <div class="user-name">{{ userName }}</div>
-          <div class="user-role">ADMIN</div>
-        </div>
-        <i class="fas fa-chevron-down"></i>
-      </div>
-    </div>
-  </div>
-
   <!-- Stats Cards -->
   <div class="stats-container">
     <div class="stat-card stat-primary">
@@ -35,7 +9,7 @@
         <div class="stat-value">{{ stats.totalStudents }}</div>
         <div class="stat-label">Étudiants</div>
         <div class="stat-change positive">
-          <i class="fas fa-arrow-up"></i> +12% ce mois
+          <i class="fas fa-arrow-up"></i> +12%
         </div>
       </div>
     </div>
@@ -48,7 +22,7 @@
         <div class="stat-value">{{ stats.totalTeachers }}</div>
         <div class="stat-label">Enseignants</div>
         <div class="stat-change positive">
-          <i class="fas fa-arrow-up"></i> +5% ce mois
+          <i class="fas fa-arrow-up"></i> +5%
         </div>
       </div>
     </div>
@@ -74,7 +48,7 @@
         <div class="stat-value">{{ stats.totalSubjects }}</div>
         <div class="stat-label">Matières</div>
         <div class="stat-change positive">
-          <i class="fas fa-arrow-up"></i> +8% ce mois
+          <i class="fas fa-arrow-up"></i> +8%
         </div>
       </div>
     </div>
@@ -162,12 +136,6 @@
       <div class="card-body center">
         <div class="success-rate-circle">
           <svg viewBox="0 0 100 100" class="circle-svg">
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
-              </linearGradient>
-            </defs>
             <circle cx="50" cy="50" r="45" class="circle-bg"></circle>
             <circle cx="50" cy="50" r="45" class="circle-progress"
                     [style.stroke-dashoffset]="283 - (283 * stats.successRate / 100)"></circle>

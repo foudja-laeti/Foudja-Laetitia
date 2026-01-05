@@ -1,4 +1,4 @@
-// src/app/app.routes.ts - CORRIGÉ AVEC CHILDREN
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { roleGuard } from './core/guards/role-guard';
@@ -12,7 +12,7 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   
-  // Auth Routes
+  // Auth Routes (sans layout)
   {
     path: 'auth',
     loadComponent: () => import('./layouts/auth-layout/auth-layout').then(m => m.AuthLayout),
@@ -33,28 +33,9 @@ export const routes: Routes = [
     ]
   },
 
-  // MainLayout → Student/Teacher
-  {
-    path: '',
-    loadComponent: () => import('./layouts/main-layout/main-layout').then(m => m.MainLayout),
-    canActivate: [authGuard],
-    children: [
-      {
-        path: 'dashboard/teacher',
-        canActivate: [roleGuard],
-        data: { roles: [UserRole.ENSEIGNANT, UserRole.SURVEILLANT] },
-        loadComponent: () => import('./features/dashboard/teacher-dashboard/teacher-dashboard').then(m => m.TeacherDashboard)
-      },
-      {
-        path: 'dashboard/student',
-        canActivate: [roleGuard],
-        data: { roles: [UserRole.ETUDIANT] },
-        loadComponent: () => import('./features/dashboard/student-dashboard/student-dashboard').then(m => m.StudentDashboard)
-      }
-    ]
-  },
-
-  // AdminLayout avec CHILDREN - C'EST ÇA LE PROBLÈME !
+  // ============================================
+  // ADMIN LAYOUT avec toutes ses routes
+  // ============================================
   {
     path: 'admin',
     canActivate: [authGuard, roleGuard],
@@ -67,7 +48,7 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard/admin-dashboard/admin-dashboard').then(m => m.AdminDashboardComponent)
       },
       // Départements
-      /*{
+     /* {
         path: 'departments',
         loadComponent: () => import('./features/admin/departments/departments.component').then(m => m.DepartmentsComponent)
       },
@@ -94,7 +75,70 @@ export const routes: Routes = [
     ]
   },
 
-  // 404
+  // ============================================
+  // TEACHER LAYOUT avec toutes ses routes
+  // ============================================
+  {
+    path: 'teacher',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [UserRole.ENSEIGNANT, UserRole.SURVEILLANT] },
+    loadComponent: () => import('./layouts/teacher-layout/teacher-layout').then(m => m.TeacherLayoutComponent),
+    children: [
+      // Dashboard Enseignant - Route par défaut
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/teacher-dashboard/teacher-dashboard').then(m => m.TeacherDashboard)
+      },
+      
+    ]
+  },
+
+  // ============================================
+  // STUDENT LAYOUT avec toutes ses routes
+  // ============================================
+  {
+    path: 'student',
+    canActivate: [authGuard, roleGuard],
+    data: { roles: [UserRole.ETUDIANT] },
+    loadComponent: () => import('./layouts/student-layout/student-layout').then(m => m.StudentLayoutComponent),
+    children: [
+      // Dashboard Étudiant - Route par défaut
+      {
+        path: '',
+        redirectTo: 'dashboard',
+        pathMatch: 'full'
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/student-dashboard/student-dashboard').then(m => m.StudentDashboard)
+      },
+      
+    ]
+  },
+
+  // ============================================
+  // REDIRECTIONS POUR COMPATIBILITÉ
+  // ============================================
+  // Anciennes routes → Nouvelles routes
+  {
+    path: 'dashboard/teacher',
+    redirectTo: 'teacher/dashboard',
+    pathMatch: 'full'
+  },
+  {
+    path: 'dashboard/student',
+    redirectTo: 'student/dashboard',
+    pathMatch: 'full'
+  },
+
+  // ============================================
+  // 404 - Page non trouvée
+  // ============================================
   { 
     path: '**', 
     redirectTo: '/auth/login' 

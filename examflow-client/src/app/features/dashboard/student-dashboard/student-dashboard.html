@@ -1,252 +1,175 @@
-
-<!-- src/app/features/dashboard/student-dashboard/student-dashboard.component.html -->
-
 <div class="dashboard-container">
-    <!-- Header -->
-    <div class="dashboard-header">
-      <div>
-        <h1>Bienvenue, {{ studentName }}</h1>
-        <p>Consultez vos notes et résultats</p>
-      </div>
-      <div class="header-actions">
-        <button class="btn btn-outline">
-          <i class="fas fa-download"></i>
-          Télécharger Bulletin
-        </button>
-      </div>
+  <div class="dashboard-header">
+    <div>
+      <h1>Consultez vos notes</h1>
+      <p>Année Académique 2024-2025 | 1er Trimestre</p>
     </div>
-  
-    <!-- Loading -->
-    <div *ngIf="loading" class="loading-container">
-      <div class="spinner"></div>
-      <p>Chargement de vos données...</p>
-    </div>
-  
-    <!-- Content -->
-    <div *ngIf="!loading && stats" class="dashboard-content">
-      
-      <!-- Stats Cards -->
-      <div class="stats-grid">
-        <div class="stat-card primary">
-          <div class="stat-icon">
-            <i class="fas fa-book-open"></i>
-          </div>
-          <div class="stat-content">
-            <p class="stat-label">Matières</p>
-            <h3 class="stat-value">{{ stats.totalSubjects }}</h3>
-            <span class="stat-badge">En cours</span>
-          </div>
-        </div>
-  
-        <div class="stat-card success">
-          <div class="stat-icon">
-            <i class="fas fa-star"></i>
-          </div>
-          <div class="stat-content">
-            <p class="stat-label">Moyenne</p>
-            <h3 class="stat-value">{{ stats.averageSuccess }}</h3>
-            <span class="stat-badge">/20</span>
-          </div>
-        </div>
-  
-        <div class="stat-card info">
-          <div class="stat-icon">
-            <i class="fas fa-file-alt"></i>
-          </div>
-          <div class="stat-content">
-            <p class="stat-label">Évaluations</p>
-            <h3 class="stat-value">{{ grades.length }}</h3>
-            <span class="stat-badge">Ce trimestre</span>
-          </div>
-        </div>
-  
-        <div class="stat-card warning">
-          <div class="stat-icon">
-            <i class="fas fa-chart-line"></i>
-          </div>
-          <div class="stat-content">
-            <p class="stat-label">Progression</p>
-            <h3 class="stat-value">+5%</h3>
-            <span class="stat-badge">vs dernier trim.</span>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Main Content Grid -->
-      <div class="content-grid">
-        
-        <!-- Grades Table -->
-        <div class="card grades-card">
-          <div class="card-header">
-            <h3>
-              <i class="fas fa-clipboard-list"></i>
-              Mes Notes
-            </h3>
-            <div class="filter-controls">
-              <select class="form-select">
-                <option>Toutes les matières</option>
-                <option>Mathématiques</option>
-                <option>Physique</option>
-                <option>Français</option>
-              </select>
-            </div>
-          </div>
-          <div class="card-body no-padding">
-            <div class="table-responsive">
-              <table class="grades-table">
-                <thead>
-                  <tr>
-                    <th>Matière</th>
-                    <th>Type</th>
-                    <th>Note</th>
-                    <th>Coefficient</th>
-                    <th>Date</th>
-                    <th>Statut</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let grade of grades">
-                    <td>
-                      <div class="subject-cell">
-                        <i class="fas fa-graduation-cap"></i>
-                        <span>{{ grade.subjectName }}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span class="type-badge" [class]="grade.evaluationType">
-                        {{ grade.evaluationType }}
-                      </span>
-                    </td>
-                    <td>
-                      <span class="grade-value" [class]="getGradeColor(grade.score, grade.maxScore)">
-                        {{ grade.score }}/{{ grade.maxScore }}
-                      </span>
-                    </td>
-                    <td>
-                      <span class="coefficient">x{{ grade.coefficient }}</span>
-                    </td>
-                    <td class="date-cell">
-                      {{ grade.validatedAt | date:'dd/MM/yyyy' }}
-                    </td>
-                    <td>
-                      <span class="status-badge" [class]="grade.status">
-                        <i class="fas" [class.fa-check]="grade.status === 'VALIDATED'" 
-                           [class.fa-clock]="grade.status !== 'VALIDATED'"></i>
-                        {{ grade.status === 'VALIDATED' ? 'Validée' : 'En attente' }}
-                      </span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Side Cards -->
-        <div class="side-cards">
-          
-          <!-- Average Chart -->
-          <div class="card">
-            <div class="card-header">
-              <h3>
-                <i class="fas fa-chart-pie"></i>
-                Performance
-              </h3>
-            </div>
-            <div class="card-body center">
-              <div class="performance-circle">
-                <div class="circle-chart large">
-                  <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" class="circle-bg"></circle>
-                    <circle 
-                      cx="50" 
-                      cy="50" 
-                      r="40" 
-                      class="circle-progress"
-                      [style.stroke-dashoffset]="251 - (251 * stats.averageSuccess / 20)"
-                    ></circle>
-                  </svg>
-                  <div class="circle-content">
-                    <span class="percentage">{{ stats.averageSuccess }}</span>
-                    <span class="label">/20</span>
-                  </div>
-                </div>
-                <p class="performance-label">Moyenne Générale</p>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Quick Info -->
-          <div class="card">
-            <div class="card-header">
-              <h3>
-                <i class="fas fa-info-circle"></i>
-                Informations
-              </h3>
-            </div>
-            <div class="card-body">
-              <div class="info-list">
-                <div class="info-item">
-                  <i class="fas fa-door-open text-primary"></i>
-                  <div>
-                    <p class="info-label">Classe</p>
-                    <p class="info-value">Terminale S</p>
-                  </div>
-                </div>
-                <div class="info-item">
-                  <i class="fas fa-calendar text-success"></i>
-                  <div>
-                    <p class="info-label">Trimestre</p>
-                    <p class="info-value">1er Trimestre</p>
-                  </div>
-                </div>
-                <div class="info-item">
-                  <i class="fas fa-calendar-alt text-warning"></i>
-                  <div>
-                    <p class="info-label">Année Académique</p>
-                    <p class="info-value">2024-2025</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-  
-          <!-- Recent Activities -->
-          <div class="card">
-            <div class="card-header">
-              <h3>
-                <i class="fas fa-bell"></i>
-                Notifications
-              </h3>
-            </div>
-            <div class="card-body">
-              <div class="notifications-list">
-                <div
-                  *ngFor="let activity of stats.recentActivities"
-                  class="notification-item"
-                >
-                  <div class="notification-icon" [class]="activity.color">
-                    <i [class]="'fas fa-' + activity.icon"></i>
-                  </div>
-                  <div class="notification-content">
-                    <p>{{ activity.description }}</p>
-                    <span>{{ getTimeAgo(activity.timestamp) }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <!-- Info Banner -->
-      <div class="info-banner">
-        <i class="fas fa-info-circle"></i>
-        <div>
-          <strong>Mode Consultation :</strong>
-          Vous consultez vos notes en lecture seule. Pour toute réclamation, veuillez contacter l'administration.
-        </div>
-      </div>
-  
+    <div class="header-actions">
+      <button class="btn btn-outline">
+        <i class="fas fa-download"></i>
+        Télécharger Bulletin
+      </button>
     </div>
   </div>
+
+  <div *ngIf="loading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Chargement de vos données...</p>
+  </div>
+
+  <div *ngIf="!loading && stats" class="dashboard-content">
+    
+    <div class="stats-grid">
+      <div class="stat-card primary">
+        <div class="stat-icon"><i class="fas fa-book-open"></i></div>
+        <div class="stat-content">
+          <p class="stat-label">Matières</p>
+          <h3 class="stat-value">{{ stats.totalSubjects }}</h3>
+          <span class="stat-badge">En cours</span>
+        </div>
+      </div>
+
+      <div class="stat-card success">
+        <div class="stat-icon"><i class="fas fa-star"></i></div>
+        <div class="stat-content">
+          <p class="stat-label">Moyenne</p>
+          <h3 class="stat-value">{{ stats.averageSuccess }}</h3>
+          <span class="stat-badge">/ 20</span>
+        </div>
+      </div>
+
+      <div class="stat-card info">
+        <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+        <div class="stat-content">
+          <p class="stat-label">Évaluations</p>
+          <h3 class="stat-value">{{ grades.length }}</h3>
+          <span class="stat-badge">Ce trimestre</span>
+        </div>
+      </div>
+
+      <div class="stat-card warning">
+        <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+        <div class="stat-content">
+          <p class="stat-label">Progression</p>
+          <h3 class="stat-value">+5%</h3>
+          <span class="stat-badge">vs dernier trim.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-grid">
+      
+      <div class="card grades-card">
+        <div class="card-header">
+          <h3><i class="fas fa-clipboard-list"></i> Mes Notes</h3>
+          <div class="filter-controls">
+            <select class="form-select">
+              <option>Toutes les matières</option>
+            </select>
+          </div>
+        </div>
+        <div class="card-body no-padding">
+          <div class="table-responsive">
+            <table class="grades-table">
+              <thead>
+                <tr>
+                  <th>Matière</th>
+                  <th>Type</th>
+                  <th>Note</th>
+                  <th>Coef</th>
+                  <th>Date</th>
+                  <th>Statut</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let grade of grades">
+                  <td>
+                    <div class="subject-cell">
+                      <i class="fas fa-graduation-cap"></i>
+                      <span>{{ grade.subjectName }}</span>
+                    </div>
+                  </td>
+                  <td><span class="type-badge" [ngClass]="grade.evaluationType">{{ grade.evaluationType }}</span></td>
+                  <td>
+                    <span class="grade-value" [ngClass]="getGradeColor(grade.score, grade.maxScore)">
+                      {{ grade.score }}/{{ grade.maxScore }}
+                    </span>
+                  </td>
+                  <td><span class="coefficient">x{{ grade.coefficient }}</span></td>
+                  <td class="date-cell">{{ grade.validatedAt | date:'dd/MM/yyyy' }}</td>
+                  <td>
+                    <span class="status-badge" [ngClass]="grade.status">
+                      <i class="fas" [ngClass]="grade.status === 'VALIDATED' ? 'fa-check' : 'fa-clock'"></i>
+                      {{ grade.status === 'VALIDATED' ? 'Validée' : 'En attente' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-cards">
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-chart-pie"></i> Performance</h3>
+          </div>
+          <div class="card-body center">
+            <div class="circle-chart">
+              <svg viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#10B981" />
+                    <stop offset="100%" stop-color="#34D399" />
+                  </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" class="circle-bg"></circle>
+                <circle cx="50" cy="50" r="40" class="circle-progress"
+                  [style.stroke-dashoffset]="251 - (251 * stats.averageSuccess / 20)">
+                </circle>
+              </svg>
+              <div class="circle-content">
+                <span class="percentage">{{ stats.averageSuccess }}</span>
+                <span class="label">/20</span>
+              </div>
+            </div>
+            <p class="performance-label">Moyenne Générale</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3><i class="fas fa-info-circle"></i> Informations</h3>
+          </div>
+          <div class="card-body">
+            <div class="info-list">
+              <div class="info-item">
+                <i class="fas fa-door-open text-primary"></i>
+                <div>
+                  <p class="info-label">Classe</p>
+                  <p class="info-value">Terminale S</p>
+                </div>
+              </div>
+              <div class="info-item">
+                <i class="fas fa-calendar text-success"></i>
+                <div>
+                  <p class="info-label">Trimestre</p>
+                  <p class="info-value">1er Trimestre</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-banner">
+      <i class="fas fa-info-circle"></i>
+      <div>
+        <strong>Mode Consultation :</strong>
+        Vous consultez vos notes en lecture seule.
+      </div>
+    </div>
+  </div>
+</div>

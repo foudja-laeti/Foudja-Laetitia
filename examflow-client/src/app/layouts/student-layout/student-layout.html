@@ -1,0 +1,100 @@
+<div class="layout-container">
+    <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+      <div class="sidebar-header">
+        <div class="logo-container">
+          <i class="fas fa-graduation-cap logo-icon"></i>
+          <span class="logo-text" *ngIf="!sidebarCollapsed">ExamSys</span>
+        </div>
+      </div>
+  
+      <nav class="sidebar-nav">
+        <a routerLink="/student/dashboard" routerLinkActive="active" class="nav-item">
+          <i class="fas fa-home"></i>
+          <span *ngIf="!sidebarCollapsed">Tableau de bord</span>
+        </a>
+        <a routerLink="/student/grades" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Mes Notes' : ''">
+          <i class="fas fa-clipboard-list"></i>
+          <span *ngIf="!sidebarCollapsed">Mes Notes</span>
+        </a>
+  
+        <a routerLink="/student/bulletin" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Mon Bulletin' : ''">
+          <i class="fas fa-file-alt"></i>
+          <span *ngIf="!sidebarCollapsed">Mon Bulletin</span>
+        </a>
+  
+        <a routerLink="/student/courses" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Mes UE' : ''">
+          <i class="fas fa-book-open"></i>
+          <span *ngIf="!sidebarCollapsed">Mes UE</span>
+        </a>
+  
+        <a routerLink="/student/requests" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Requêtes' : ''">
+          <i class="fas fa-question-circle"></i>
+          <span *ngIf="!sidebarCollapsed">Mes Requêtes</span>
+          <span class="badge warning" *ngIf="!sidebarCollapsed && pendingRequests > 0">{{ pendingRequests }}</span>
+        </a>
+  
+        <a routerLink="/student/profile" 
+           routerLinkActive="active" 
+           class="nav-item"
+           [title]="sidebarCollapsed ? 'Mon Profil' : ''">
+          <i class="fas fa-user"></i>
+          <span *ngIf="!sidebarCollapsed">Mon Profil</span>
+        </a>
+      </nav>
+  
+      
+        <a routerLink="/student/settings" routerLinkActive="active" class="nav-item">
+          <i class="fas fa-cog"></i>
+          <span *ngIf="!sidebarCollapsed">Paramètres</span>
+        </a>
+      
+  
+      <div class="sidebar-footer">
+        <button class="logout-btn" (click)="logout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span *ngIf="!sidebarCollapsed">Déconnexion</span>
+        </button>
+      </div>
+    </aside>
+  
+    <main class="main-wrapper">
+      <header class="main-header">
+        <div class="header-content">
+          <div class="page-info">
+            <h1 class="page-title">{{ getPageTitle() }}</h1>
+            <p class="academic-info">Année académique 2024-2025 | Trimestre 1</p>
+          </div>
+  
+          <div class="header-right">
+            <div class="notifications">
+              <i class="fas fa-bell"></i>
+              <span class="notif-badge">5</span>
+            </div>
+            <div class="user-profile">
+              <div class="user-text">
+                <span class="user-name">Administrateur Kouam</span>
+                <span class="user-role">Admin</span>
+              </div>
+              <div class="user-avatar">A</div>
+            </div>
+          </div>
+        </div>
+      </header>
+  
+      <div class="content-body">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>

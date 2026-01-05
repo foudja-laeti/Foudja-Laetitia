@@ -1,171 +1,169 @@
-<!-- admin-layout.component.html - COMPLET AVEC SOUS-MENU -->
-<div class="admin-layout">
-    <!-- Header Premium -->
-    <header class="admin-header">
-      <div class="header-left">
-        <div class="logo">
-          <i class="fas fa-graduation-cap"></i>
-          <span>ExamSys</span>
-        </div>
-        <nav class="header-nav">
-          <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
-            <i class="fas fa-chart-line"></i>
-            <span>Dashboard</span>
-          </a>
-        </nav>
+<div class="layout-container">
+  <!-- Sidebar -->
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <div class="logo-container">
+        <i class="fas fa-graduation-cap logo-icon"></i>
+        <span class="logo-text" *ngIf="!sidebarCollapsed">ExamSys</span>
       </div>
-      
-      <div class="header-right">
-        <div class="search-bar">
-          <i class="fas fa-search"></i>
-          <input type="text" placeholder="Rechercher...">
+    </div>
+
+    <nav class="sidebar-nav">
+      <!-- Dashboard -->
+      <a routerLink="/admin" 
+         routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact: true}"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Dashboard' : ''">
+        <i class="fas fa-chart-line"></i>
+        <span *ngIf="!sidebarCollapsed">Tableau de bord</span>
+      </a>
+
+      <!-- Structure Académique (Menu déroulant) -->
+      <div class="nav-group">
+        <button class="nav-item nav-parent" 
+                [class.expanded]="isStructureMenuOpen"
+                [class.active]="isStructureActive()"
+                (click)="toggleStructureMenu()"
+                [title]="sidebarCollapsed ? 'Structure Académique' : ''">
+          <i class="fas fa-university"></i>
+          <span *ngIf="!sidebarCollapsed">Structure Académique</span>
+          <i *ngIf="!sidebarCollapsed" class="fas fa-chevron-down submenu-arrow"></i>
+        </button>
+        
+        <!-- Sous-menu -->
+        <div class="submenu" [class.show]="isStructureMenuOpen && !sidebarCollapsed">
+          <a routerLink="/admin/departments"
+             routerLinkActive="active"
+             class="submenu-item">
+            <i class="fas fa-building"></i>
+            <span>Départements</span>
+          </a>
+          
+          <a routerLink="/admin/programs"
+             routerLinkActive="active"
+             class="submenu-item">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Programmes</span>
+          </a>
+          
+          <a routerLink="/admin/course-units"
+             routerLinkActive="active"
+             class="submenu-item">
+            <i class="fas fa-book"></i>
+            <span>Unités d'Enseignement</span>
+          </a>
         </div>
-        <div class="notifications">
-          <i class="fas fa-bell"></i>
-          <span class="badge">3</span>
+      </div>
+
+      <!-- Années & Semestres -->
+      <a routerLink="/admin/academic-years" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Années & Semestres' : ''">
+        <i class="fas fa-calendar-alt"></i>
+        <span *ngIf="!sidebarCollapsed">Années & Semestres</span>
+      </a>
+
+      <!-- Utilisateurs -->
+      <a routerLink="/admin/users" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Utilisateurs' : ''">
+        <i class="fas fa-users"></i>
+        <span *ngIf="!sidebarCollapsed">Utilisateurs</span>
+      </a>
+
+      <!-- Étudiants -->
+      <a routerLink="/admin/students" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Étudiants' : ''">
+        <i class="fas fa-user-graduate"></i>
+        <span *ngIf="!sidebarCollapsed">Étudiants</span>
+      </a>
+
+      <!-- Enseignants -->
+      <a routerLink="/admin/teachers" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Enseignants' : ''">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <span *ngIf="!sidebarCollapsed">Enseignants</span>
+      </a>
+
+      <!-- Notes -->
+      <a routerLink="/admin/grades" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Notes' : ''">
+        <i class="fas fa-edit"></i>
+        <span *ngIf="!sidebarCollapsed">Notes</span>
+      </a>
+
+      <!-- Bulletins -->
+      <a routerLink="/admin/bulletins" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Bulletins' : ''">
+        <i class="fas fa-file-alt"></i>
+        <span *ngIf="!sidebarCollapsed">Bulletins</span>
+      </a>
+
+      <!-- Statistiques -->
+      <a routerLink="/admin/statistics" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Statistiques' : ''">
+        <i class="fas fa-chart-bar"></i>
+        <span *ngIf="!sidebarCollapsed">Statistiques</span>
+      </a>
+
+      <!-- Paramètres -->
+      <a routerLink="/admin/settings" 
+         routerLinkActive="active"
+         class="nav-item"
+         [title]="sidebarCollapsed ? 'Paramètres' : ''">
+        <i class="fas fa-cog"></i>
+        <span *ngIf="!sidebarCollapsed">Paramètres</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <i class="fas fa-sign-out-alt"></i>
+        <span *ngIf="!sidebarCollapsed">Déconnexion</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-wrapper">
+    <header class="main-header">
+      <div class="header-content">
+        <div class="page-info">
+          <h1 class="page-title">{{ getPageTitle() }}</h1>
+          <p class="academic-info">Année académique 2024-2025 | Trimestre 1</p>
         </div>
-        <div class="user-profile">
-          <img [src]="user?.avatar || 'https://ui-avatars.com/api/?name=' + userName" alt="Avatar">
-          <div class="user-info">
-            <div class="user-name">{{ userName }}</div>
-            <div class="user-role">{{ userRole }}</div>
+
+        <div class="header-right">
+          <div class="notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notif-badge">3</span>
           </div>
-          <button class="logout-btn" (click)="logout()">
-            <i class="fas fa-sign-out-alt"></i>
-          </button>
+          <div class="user-profile">
+            <div class="user-text">
+              <span class="user-name">{{ userName }}</span>
+              <span class="user-role">{{ userRole }}</span>
+            </div>
+            <div class="user-avatar">{{ getInitials() }}</div>
+          </div>
         </div>
       </div>
     </header>
-  
-    <div class="admin-body">
-      <!-- Sidebar Premium avec Menu Déroulant -->
-      <aside class="admin-sidebar">
-        <div class="sidebar-header">
-          <h3>Navigation</h3>
-        </div>
-        
-        <nav class="sidebar-nav">
-          <!-- 📊 Dashboard -->
-          <a routerLink="/admin" 
-             routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}"
-             class="nav-item">
-            <i class="fas fa-chart-line menu-icon"></i>
-            <span class="menu-text">Dashboard</span>
-          </a>
-  
-          <!-- 🏛️ Structure Académique (MENU DÉROULANT) -->
-          <div class="nav-group">
-            <button class="nav-item nav-parent" 
-                    [class.expanded]="isStructureMenuOpen"
-                    (click)="toggleStructureMenu()">
-              <i class="fas fa-university menu-icon"></i>
-              <span class="menu-text">Structure Académique</span>
-              <i class="fas fa-chevron-down submenu-arrow"></i>
-            </button>
-            
-            <!-- Sous-menu -->
-            <div class="submenu" [class.show]="isStructureMenuOpen">
-              <a routerLink="/admin/departments"
-                 routerLinkActive="active"
-                 class="submenu-item">
-                <i class="fas fa-building submenu-icon"></i>
-                <span class="submenu-text">Départements</span>
-              </a>
-              
-              <a routerLink="/admin/programs"
-                 routerLinkActive="active"
-                 class="submenu-item">
-                <i class="fas fa-clipboard-list submenu-icon"></i>
-                <span class="submenu-text">Programmes</span>
-              </a>
-              
-              <a routerLink="/admin/course-units"
-                 routerLinkActive="active"
-                 class="submenu-item">
-                <i class="fas fa-book submenu-icon"></i>
-                <span class="submenu-text">Unités d'Enseignement</span>
-              </a>
-            </div>
-          </div>
-  
-          <!-- 📅 Années & Semestres -->
-          <a routerLink="/admin/academic-years" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-calendar-alt menu-icon"></i>
-            <span class="menu-text">Années & Semestres</span>
-          </a>
-  
-          <!-- 👥 Utilisateurs -->
-          <a routerLink="/users" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-users menu-icon"></i>
-            <span class="menu-text">Utilisateurs</span>
-          </a>
-  
-          <!-- 🎓 Étudiants -->
-          <a routerLink="/students" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-user-graduate menu-icon"></i>
-            <span class="menu-text">Étudiants</span>
-          </a>
-  
-          <!-- 👨‍🏫 Enseignants -->
-          <a routerLink="/teachers" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-chalkboard-teacher menu-icon"></i>
-            <span class="menu-text">Enseignants</span>
-          </a>
-  
-          <!-- 📝 Notes -->
-          <a routerLink="/grades" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-edit menu-icon"></i>
-            <span class="menu-text">Notes</span>
-          </a>
-  
-          <!-- 📄 Bulletins -->
-          <a routerLink="/bulletins" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-file-alt menu-icon"></i>
-            <span class="menu-text">Bulletins</span>
-          </a>
-  
-          <!-- 📈 Statistiques -->
-          <a routerLink="/statistics" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-chart-bar menu-icon"></i>
-            <span class="menu-text">Statistiques</span>
-          </a>
-  
-          <!-- ⚙️ Paramètres -->
-          <a routerLink="/admin/settings" 
-             routerLinkActive="active"
-             class="nav-item">
-            <i class="fas fa-cog menu-icon"></i>
-            <span class="menu-text">Paramètres</span>
-          </a>
-  
-          <!-- DIVIDER ET DÉCONNEXION -->
-          <div class="sidebar-divider"></div>
-          
-          <button class="nav-item logout-item" (click)="logout()">
-            <i class="fas fa-sign-out-alt menu-icon"></i>
-            <span class="menu-text">Déconnexion</span>
-          </button>
-        </nav>
-      </aside>
-  
-      <!-- Content -->
-      <main class="admin-content">
-        <router-outlet />
-      </main>
+
+    <div class="content-body">
+      <router-outlet></router-outlet>
     </div>
-  </div>
+  </main>
+</div>
